@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: ${RDS_URL}
+    username: ${RDS_SECRET_NAME}
+    driverClassName: com.amazonaws.secretsmanager.sql.AWSSecretsManagerPostgreSQLDriver
+    hikari:
+      minimum-idle: 2
+      maximum-pool-size: 5
+      idle-timeout: 5000
+  config:
+    import: aws-secretsmanager:TMSPlatform-prod-tmsAPI-service-secret
+
+# SpringDoc OpenAPI - Swagger3 configuration
+# TODO: temporarily enabled in prod. disable it in prod once it becomes stable
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+
+aws:
+  s3:
+    region: ap-northeast-2
+  ses:
+    region: us-west-2
+  secretsmanager:
+    region: ap-northeast-2

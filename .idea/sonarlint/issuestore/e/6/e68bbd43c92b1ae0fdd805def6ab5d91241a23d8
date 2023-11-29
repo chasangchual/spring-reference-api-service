@@ -1,0 +1,29 @@
+
+W
+java:S1874"BRemove this use of "EnableGlobalMethodSecurity"; it is deprecated.(ùÊœX
+L
+java:S1611T"1Remove the parentheses around the "web" parameter(ÏúÏÅüÿÿÿÿ
+]
+java:S5738^"HRemove this call to a deprecated method, it has been marked for removal.(ßÒ£E
+]
+java:S5738`"HRemove this call to a deprecated method, it has been marked for removal.(¿êÊm
+^
+java:S5738a"HRemove this call to a deprecated method, it has been marked for removal.(ğÉûã
+c
+java:S5738b"HRemove this call to a deprecated method, it has been marked for removal.(Åúßµûÿÿÿÿ
+^
+java:S5738d"HRemove this call to a deprecated method, it has been marked for removal.(èúŞ«
+c
+java:S5738e"HRemove this call to a deprecated method, it has been marked for removal.(Åúßµûÿÿÿÿ
+c
+java:S5738f"HRemove this call to a deprecated method, it has been marked for removal.(îñùíşÿÿÿÿ
+c
+java:S5738g"HRemove this call to a deprecated method, it has been marked for removal.(Åúßµûÿÿÿÿ
+^
+java:S5738h"HRemove this call to a deprecated method, it has been marked for removal.(àöÉÎ
+c
+java:S5738i"HRemove this call to a deprecated method, it has been marked for removal.(Åúßµûÿÿÿÿ
+I
+java:S1068(".Remove this unused "SIGNUP_URI" private field.(ıæé™úÿÿÿÿ
+H
+java:S1068-"-Remove this unused "LOGIN_URI" private field.(¤­Ñ¦ıÿÿÿÿ

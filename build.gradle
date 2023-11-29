@@ -1,0 +1,243 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.0'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'com.palantir.docker' version '0.35.0'
+    id 'com.palantir.git-version' version '3.0.0'
+    id 'com.avast.gradle.docker-compose' version "0.17.5"
+    id 'idea'
+    id 'eclipse'
+    id "com.diffplug.spotless" version "6.23.0"
+    id "jacoco"
+}
+
+ext {
+    set('snakeyaml.version','1.33')
+}
+
+group 'com.surefor'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = '17'
+targetCompatibility = 17
+
+repositories {
+    mavenCentral()
+}
+
+dockerCompose {
+    useComposeFiles = ['docker-compose.yml']
+    stopContainers = true
+    removeContainers = false
+}
+
+task unpack(type: Copy) {
+    dependsOn bootJar
+    from(zipTree(tasks.bootJar.outputs.files.singleFile))
+    into("build/dependency")
+}
+
+task showVersion {
+    doLast {
+        println "\nCurrent version: ${gitVersion()}\n"
+
+        def details = versionDetails()
+        println "last tag          : ${details.lastTag}"
+        println "commit distance   : ${details.commitDistance}"
+        println "hash              : ${details.gitHash}"
+        println "branch name       : ${details.branchName}"
+        println "is clean tag      : ${details.isCleanTag}"
+    }
+}
+
+docker {
+    tasks.showVersion
+
+    def ECR_REGISTRY = System.getenv('ECR_REGISTRY')
+    def ECR_REPOSITORY = System.getenv('ECR_REPOSITORY')
+
+    println "ECR_REGISTRY: ${ECR_REGISTRY}"
+    println "ECR_REPOSITORY: ${ECR_REPOSITORY}"
+
+    name "${project.group}/${bootJar.archiveBaseName.get()}"
+    copySpec.from(tasks.unpack.outputs).into("dependency")
+    tag "ECR", "${ECR_REGISTRY}/${ECR_REPOSITORY}:latest"
+    buildArgs(['DEPENDENCY': "dependency"])
+}
+
+dependencies {
+    // package versions
+    ext.springDocOpenApiVersion = '1.7.0'
+    ext.springBootVersion = '3.2.0'
+    ext.hibernateValidatorVersion = '8.0.1.Final'
+    ext.lombokVersion = '1.18.30'
+    ext.jacksonVersion = '2.16.0'
+    ext.cucumber = '7.14.1'
+    ext.jwtVersion = '0.12.3'
+    ext.junitJuipterVersion = '5.10.1'
+    ext.flywayVersion = "10.1.0"
+    ext.hibernateVersion = "6.4.0.Final"
+    ext.postgresqlVersion = "42.7.0"
+    ext.modelMapperVersion = "3.2.0"
+    ext.jbcryptVersion = "0.4"
+    ext.ehcacheVersion = "3.10.8"
+    ext.apacheCommonsLangVersion = "3.14.0"
+    ext.awsSecretManagerJDBCVersion = "2.0.0"
+    ext.awsCognitoProviderVersion = "2.21.31"
+    ext.aswSdkCoreVersion = "1.12.597"
+    ext.googleGuavaVersion = "32.1.3-jre"
+    ext.orgJsonVersion = "20231013"
+    ext.srp6aVersion = "2.1.0"
+    ext.auth0JwtVersion = "4.4.0"
+    ext.googleGson = "2.10.1"
+    ext.awsS3Version = "2.21.32"
+    ext.bouncycastle18OnVersion = "1.77"
+    ext.awsSecretManagerConfigVersion = "2.4.4"
+    ext.springSecurityTestVersion = "6.2.0"
+    ext.jakartaPersistenceApiVersion = "3.2.0-M1"
+
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    implementation "jakarta.persistence:jakarta.persistence-api:${jakartaPersistenceApiVersion}"
+    implementation "jakarta.validation:jakarta.validation-api:3.0.2"
+
+    // JWT
+    implementation "io.jsonwebtoken:jjwt-api:${jwtVersion}"
+    testImplementation "io.jsonwebtoken:jjwt-api:${jwtVersion}"
+    runtimeOnly "io.jsonwebtoken:jjwt-impl:${jwtVersion}"
+    runtimeOnly "io.jsonwebtoken:jjwt-jackson:${jwtVersion}"
+    testRuntimeOnly "io.jsonwebtoken:jjwt-impl:${jwtVersion}"
+    testRuntimeOnly "io.jsonwebtoken:jjwt-jackson:${jwtVersion}"
+    implementation "com.googlecode.json-simple:json-simple:1.1.1"
+    testImplementation "com.googlecode.json-simple:json-simple:1.1.1"
+
+    // Swagger OpenAPI
+    implementation "org.springdoc:springdoc-openapi-ui:${springDocOpenApiVersion}"
+
+    // Spring Security
+    implementation "org.springframework.boot:spring-boot-starter-security"
+    testImplementation "org.springframework.security:spring-security-test:${springSecurityTestVersion}"
+    implementation "org.hibernate:hibernate-validator:${hibernateValidatorVersion}"
+
+    // Hibernate
+    implementation "org.hibernate.orm:hibernate-envers:${hibernateVersion}"
+    testImplementation "org.hibernate.orm:hibernate-envers:${hibernateVersion}"
+    implementation "org.hibernate.orm:hibernate-core:${hibernateVersion}"
+    testImplementation "org.hibernate.orm:hibernate-core:${hibernateVersion}"
+
+    implementation "org.springframework.boot:spring-boot-starter:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-jdbc:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-cache:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-validation:${springBootVersion}"
+
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonVersion}"
+
+    implementation "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
+    implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+
+    implementation "com.giffing.bucket4j.spring.boot.starter:bucket4j-spring-boot-starter:0.9.1"
+    implementation "org.ehcache:ehcache:${ehcacheVersion}"
+    implementation "org.postgresql:postgresql:${postgresqlVersion}"
+    implementation "org.flywaydb:flyway-core:${flywayVersion}"
+
+    implementation "org.apache.commons:commons-lang3:${apacheCommonsLangVersion}"
+    implementation "org.modelmapper:modelmapper:${modelMapperVersion}"
+    implementation "org.mindrot:jbcrypt:${jbcryptVersion}"
+
+    implementation "com.amazonaws.secretsmanager:aws-secretsmanager-jdbc:${awsSecretManagerJDBCVersion}"
+    implementation "software.amazon.awssdk:cognitoidentityprovider:${awsCognitoProviderVersion}"
+    implementation "com.amazonaws:aws-java-sdk-core:${aswSdkCoreVersion}"
+    implementation "com.google.guava:guava:${googleGuavaVersion}"
+    implementation "org.json:json:${orgJsonVersion}"
+    implementation "com.nimbusds:srp6a:${srp6aVersion}"
+    implementation "com.auth0:java-jwt:${auth0JwtVersion}"
+    implementation "com.google.code.gson:gson:${googleGson}"
+    implementation "software.amazon.awssdk:s3:${awsS3Version}"
+    implementation "org.bouncycastle:bcprov-jdk18on:${bouncycastle18OnVersion}"
+    implementation "io.awspring.cloud:spring-cloud-starter-aws-secrets-manager-config:${awsSecretManagerConfigVersion}"
+
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    testImplementation 'org.junit.platform:junit-platform-commons:1.10.1'
+    testImplementation "org.junit.jupiter:junit-jupiter-engine:${junitJuipterVersion}"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitJuipterVersion}"
+    testImplementation "jakarta.persistence:jakarta.persistence-api:${jakartaPersistenceApiVersion}"
+    testImplementation "jakarta.validation:jakarta.validation-api:3.0.2"
+    testImplementation "org.mockito:mockito-junit-jupiter:5.7.0"
+    testImplementation("org.springframework.boot:spring-boot-starter-test:${springBootVersion}"){
+        exclude group: "com.vaadin.external.google", module:"android-json"
+    }
+
+    testImplementation "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
+    testImplementation "org.postgresql:postgresql:${postgresqlVersion}"
+    testImplementation "org.flywaydb:flyway-core:${flywayVersion}"
+    testImplementation "org.modelmapper:modelmapper:${modelMapperVersion}"
+    testImplementation "org.mindrot:jbcrypt:${jbcryptVersion}"
+    testImplementation "org.ehcache:ehcache:${ehcacheVersion}"
+
+    testImplementation "org.apache.commons:commons-lang3:${apacheCommonsLangVersion}"
+
+    testImplementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonVersion}"
+
+    testImplementation "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
+    testImplementation "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
+    testImplementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+
+    testImplementation "io.cucumber:cucumber-java:${cucumber}"
+    testImplementation "io.cucumber:cucumber-junit:${cucumber}"
+    testImplementation "io.cucumber:cucumber-spring:${cucumber}"
+    testImplementation "io.cucumber:cucumber-junit-platform-engine:${cucumber}"
+
+    testImplementation "com.amazonaws.secretsmanager:aws-secretsmanager-jdbc:${awsSecretManagerJDBCVersion}"
+    testImplementation "software.amazon.awssdk:cognitoidentityprovider:${awsCognitoProviderVersion}"
+    testImplementation "com.amazonaws:aws-java-sdk-core:${aswSdkCoreVersion}"
+    testImplementation "com.google.guava:guava:${googleGuavaVersion}"
+    testImplementation "org.json:json:${orgJsonVersion}"
+    testImplementation "com.nimbusds:srp6a:${srp6aVersion}"
+    testImplementation "com.auth0:java-jwt:${auth0JwtVersion}"
+    testImplementation "com.google.code.gson:gson:${googleGson}"
+    testImplementation "software.amazon.awssdk:s3:${awsS3Version}"
+    testImplementation "org.bouncycastle:bcprov-jdk18on:${bouncycastle18OnVersion}"
+    testImplementation "io.awspring.cloud:spring-cloud-starter-aws-secrets-manager-config:${awsSecretManagerConfigVersion}"
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport // report is always generated after tests run
+}
+
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
+}
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+        extendsFrom testRuntimeOnly
+    }
+}
+
+task cucumber() {
+    dependsOn assemble, testClasses
+    doLast {
+        javaexec {
+            main = "io.cucumber.core.cli.Main"
+            environment["ACTIVE_SPRING_PROFILE"] = "local"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            args = ["--plugin", "pretty",
+                    "--plugin", "html:build/test-results/test/cucumber.html",
+                    "--glue", "com.swidch.tms.cucumber.steps",
+                    "--glue", "com.swidch.tms.cucumber.config",
+                    "--glue", "com.swidch.tms.cucumber.common",
+                    "src/test/resources/features/"]
+        }
+    }
+}
+
+
+

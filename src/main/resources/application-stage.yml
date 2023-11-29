@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: ${RDS_URL}
+    username: ${RDS_SECRET_NAME}
+    driverClassName: com.amazonaws.secretsmanager.sql.AWSSecretsManagerPostgreSQLDriver
+    hikari:
+      minimum-idle: 2
+      maximum-pool-size: 5
+      idle-timeout: 5000
+  config:
+    import: aws-secretsmanager:TMSPlatform-stage-tmsAPI-service-secret
+
+aws:
+  s3:
+    region: ap-northeast-2
+  ses:
+    region: us-west-2
+  secretsmanager:
+    region: ap-northeast-2

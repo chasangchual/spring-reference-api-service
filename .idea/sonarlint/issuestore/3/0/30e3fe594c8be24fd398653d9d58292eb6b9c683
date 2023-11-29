@@ -1,0 +1,7 @@
+
+M
+java:S1854|"8Remove this useless assignment to local variable "rest".(ÁÎ¢B
+>
+java:S1481|")Remove this unused "rest" local variable.(ÁÎ¢B
+U
+java:S1155">Use isEmpty() to check whether the collection is empty or not.(ð†…î

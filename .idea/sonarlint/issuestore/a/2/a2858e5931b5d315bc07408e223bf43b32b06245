@@ -1,0 +1,29 @@
+
+}
+java:S1488>"bImmediately return this expression instead of assigning it to the temporary variable "jsonObject".(•ñ”ÿÿÿÿÿ
+}
+java:S1488R"bImmediately return this expression instead of assigning it to the temporary variable "jsonObject".(•ñ”ÿÿÿÿÿ
+P
+java:S1874#":Remove this use of "SignatureAlgorithm"; it is deprecated.(ƒê«Ş
+P
+java:S1874#":Remove this use of "SignatureAlgorithm"; it is deprecated.(ƒê«Ş
+P
+java:S1874#":Remove this use of "SignatureAlgorithm"; it is deprecated.(ƒê«Ş
+M
+java:S1135'"2Complete the task associated to this TODO comment.(íÉªûÿÿÿÿ
+K
+java:S1874œ"/Remove this use of "getBody"; it is deprecated.(¸Œñ¨ıÿÿÿÿ
+N
+java:S1874Ë"2Remove this use of "setSubject"; it is deprecated.(ü”ƒôÿÿÿÿÿ
+M
+java:S1874Ï"1Remove this use of "setHeader"; it is deprecated.(¯ı¯ùÿÿÿÿ
+M
+java:S1874Ğ"1Remove this use of "setClaims"; it is deprecated.(´¸ä§ıÿÿÿÿ
+J
+java:S1874Ñ"3Remove this use of "setIssuedAt"; it is deprecated.(¼âëÏ
+K
+java:S1874Ò"5Remove this use of "setExpiration"; it is deprecated.(ÜÌ€9
+L
+java:S1874Ó"0Remove this use of "signWith"; it is deprecated.(ÁÁ¬şÿÿÿÿ
+F
+java:S1874À"/Remove this use of "getBody"; it is deprecated.(ÛÚ‰ì

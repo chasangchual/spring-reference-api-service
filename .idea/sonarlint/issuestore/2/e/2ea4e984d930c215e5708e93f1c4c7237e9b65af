@@ -1,0 +1,7 @@
+
+t
+java:S2293l"YReplace the type specification in this constructor call with the diamond operator ("<>").(ÚƒÍìýÿÿÿÿ
+X
+java:S6813&"BRemove this field injection and use constructor injection instead.(êæÄÞ
+|
+java:S3457v"aNo need to call "toString()" method as formatting and string conversion is done by the Formatter.(†ÿÌ¥ÿÿÿÿÿ

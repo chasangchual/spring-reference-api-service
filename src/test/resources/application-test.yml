@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:52349/tmsplatform?rewritebatchedinserts=true
+    username: test_user
+    password:
+    hikari:
+      minimum-idle: 2
+      maximum-pool-size: 5
+      idle-timeout: 5000
+
+app:
+  global:
+    oidKey: e01778fc29f223dff6acb25dc2451d80
+    oidName: MAILKOREA
+  auth:
+    key: eRu9)4u!e>[RG_F>]fV6ux8nL6+C*/t
+
+jwt:
+  header:
+    name: Authorization
+    prefix: Bearer
+    secret-key: NcRfUjXn2r5u8x!A%D*G-KaPdSgVkYp3

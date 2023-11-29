@@ -1,0 +1,2 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE SEQUENCE IF NOT EXISTS hibernate_sequence;

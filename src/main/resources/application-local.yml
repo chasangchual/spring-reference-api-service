@@ -1,0 +1,34 @@
+logging:
+  level:
+    root: INFO
+    java.net: DEBUG
+    org.springframework: DEBUG
+    org.springframework.boot.autoconfigure: INFO
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:52348/tmsplatform?rewritebatchedinserts=true
+    username: tms_user
+    password:
+    hikari:
+      minimum-idle: 2
+      maximum-pool-size: 5
+      idle-timeout: 5000
+jwt:
+  header:
+    secret-key: B?E(H+MbQeThVmYq3t6w9z$C&F)J@NcR
+
+app:
+  auth:
+    key: eRu9)4u!e>[RG_F>]fV6ux8nL6+C*/t
+
+# Un-comment below when the local application is tested to directly talk to AWS
+#  config:
+#    import: aws-secretsmanager:TMSPlatform-dev-tmsAPI-service-secret
+#aws:
+#  s3:
+#    region: ap-northeast-2
+#  ses:
+#    region: us-west-2
+#  secretsmanager:
+#    region: ap-northeast-2

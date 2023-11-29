@@ -1,0 +1,8 @@
+
+t
+java:S2293o"YReplace the type specification in this constructor call with the diamond operator ("<>").(ÚƒÍìýÿÿÿÿ
+f
+java:S25834"DChange this condition so that it does not always evaluate to "false"(Ž°¥ øÿÿÿÿ8ö¦×ËÁ1
+X	java:S125d"<This block of commented-out lines of code should be removed.(âÊë8ºªÞËÁ1
+|
+java:S3457y"aNo need to call "toString()" method as formatting and string conversion is done by the Formatter.(†ÿÌ¥ÿÿÿÿÿ
